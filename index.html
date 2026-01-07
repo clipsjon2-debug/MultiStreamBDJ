@@ -320,8 +320,8 @@
             
             <div class="input-group">
                 <select id="platform">
-                    <option value="twitch">🟣Twitch</option>
-                    <option value="kick">🟢Kick</option>
+                    <option value="twitch">Twitch</option>
+                    <option value="kick">Kick</option>
                 </select>
                 <input type="text" id="channelInput" placeholder="Adicione uma stream">
                 <button onclick="addStream()">Adicionar Stream</button>
@@ -403,10 +403,10 @@
                 streamsContainer.innerHTML = streams.map(stream => {
                     let embedCode;
                     if (stream.platform === 'twitch') {
-                        // Twitch embed com layout completo (player + chat)
+                        // Twitch embed - usando player direto
                         embedCode = `
                             <iframe 
-                                src="https://www.twitch.tv/embed/${stream.channel}/chat?darkpopout&parent=multistreambdj.netlify.app" 
+                                src="https://player.twitch.tv/?channel=${stream.channel}&parent=multistreambdj.netlify.app&muted=false" 
                                 height="100%" 
                                 width="100%" 
                                 allowfullscreen>
@@ -417,7 +417,6 @@
                         embedCode = `
                             <div class="kick-placeholder">
                                 <div class="placeholder-content">
-                                    <img src="https://kick.com/favicon.ico" style="width: 80px; margin-bottom: 20px;" alt="Kick">
                                     <h3>🟢 ${stream.channel}</h3>
                                     <p class="platform-badge">KICK</p>
                                     <a href="https://kick.com/${stream.channel}" target="_blank" class="open-stream-btn">
