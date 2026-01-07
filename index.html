@@ -311,8 +311,8 @@
             
             <div class="input-group">
                 <select id="platform">
-                    <option value="twitch">🟣Twitch</option>
-                    <option value="kick">🟢Kick</option>
+                    <option value="twitch">Twitch</option>
+                    <option value="kick">Kick</option>
                 </select>
                 <input type="text" id="channelInput" placeholder="Adicione uma stream">
                 <button onclick="addStream()">Adicionar Stream</button>
@@ -394,27 +394,26 @@
                 streamsContainer.innerHTML = streams.map(stream => {
                     let embedCode;
                     if (stream.platform === 'twitch') {
-                        // Formato correto da Twitch sem o 'www'
+                        // Twitch embed - formato oficial
                         embedCode = `
                             <iframe 
                                 src="https://player.twitch.tv/?channel=${stream.channel}&parent=multistreambdj.netlify.app" 
                                 height="100%" 
                                 width="100%" 
-                                allowfullscreen="true"
-                                frameborder="0"
-                                scrolling="no">
+                                allowfullscreen
+                                frameborder="0">
                             </iframe>
                         `;
                     } else {
-                        // Formato correto do Kick
+                        // Kick embed - formato oficial documentado
                         embedCode = `
                             <iframe 
                                 src="https://player.kick.com/${stream.channel}" 
-                                height="100%" 
-                                width="100%" 
-                                allowfullscreen="true"
-                                frameborder="0"
-                                scrolling="no">
+                                height="720" 
+                                width="1280" 
+                                frameborder="0" 
+                                scrolling="no" 
+                                allowfullscreen="true">
                             </iframe>
                         `;
                     }
