@@ -218,6 +218,15 @@
             z-index: 1;
         }
 
+        .kick-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #53fc18 0%, #3ba832 100%);
+        }
+
         .placeholder-content {
             text-align: center;
             color: white;
@@ -311,8 +320,8 @@
             
             <div class="input-group">
                 <select id="platform">
-                    <option value="twitch">Twitch</option>
-                    <option value="kick">Kick</option>
+                    <option value="twitch">🟣Twitch</option>
+                    <option value="kick">🟢Kick</option>
                 </select>
                 <input type="text" id="channelInput" placeholder="Adicione uma stream">
                 <button onclick="addStream()">Adicionar Stream</button>
@@ -394,27 +403,29 @@
                 streamsContainer.innerHTML = streams.map(stream => {
                     let embedCode;
                     if (stream.platform === 'twitch') {
-                        // Twitch embed - formato oficial
+                        // Twitch embed com layout completo (player + chat)
                         embedCode = `
                             <iframe 
-                                src="https://player.twitch.tv/?channel=${stream.channel}&parent=multistreambdj.netlify.app" 
+                                src="https://www.twitch.tv/embed/${stream.channel}/chat?darkpopout&parent=multistreambdj.netlify.app" 
                                 height="100%" 
                                 width="100%" 
-                                allowfullscreen
-                                frameborder="0">
+                                allowfullscreen>
                             </iframe>
                         `;
                     } else {
-                        // Kick embed - formato oficial documentado
+                        // Kick - link direto que abre em nova janela (embed não funciona mais)
                         embedCode = `
-                            <iframe 
-                                src="https://player.kick.com/${stream.channel}" 
-                                height="720" 
-                                width="1280" 
-                                frameborder="0" 
-                                scrolling="no" 
-                                allowfullscreen="true">
-                            </iframe>
+                            <div class="kick-placeholder">
+                                <div class="placeholder-content">
+                                    <img src="https://kick.com/favicon.ico" style="width: 80px; margin-bottom: 20px;" alt="Kick">
+                                    <h3>🟢 ${stream.channel}</h3>
+                                    <p class="platform-badge">KICK</p>
+                                    <a href="https://kick.com/${stream.channel}" target="_blank" class="open-stream-btn">
+                                        Abrir Live no Kick
+                                    </a>
+                                    <p class="info-small">O Kick desabilitou embeds externos. Clique para abrir a live!</p>
+                                </div>
+                            </div>
                         `;
                     }
 
