@@ -311,8 +311,8 @@
             
             <div class="input-group">
                 <select id="platform">
-                    <option value="twitch">Twitch</option>
-                    <option value="kick">Kick</option>
+                    <option value="twitch">🟣Twitch</option>
+                    <option value="kick">🟢Kick</option>
                 </select>
                 <input type="text" id="channelInput" placeholder="Adicione uma stream">
                 <button onclick="addStream()">Adicionar Stream</button>
@@ -392,26 +392,34 @@
                 `;
             } else {
                 streamsContainer.innerHTML = streams.map(stream => {
-                    let embedUrl;
+                    let embedCode;
                     if (stream.platform === 'twitch') {
-                        // Configurado para seu domínio Netlify
-                        embedUrl = `https://player.twitch.tv/?channel=${stream.channel}&parent=multistreambdj.netlify.app&muted=false`;
-                    } else {
-                        // Kick embed
-                        embedUrl = `https://player.kick.com/${stream.channel}`;
-                    }
-
-                    return `
-                        <div class="stream-frame">
+                        // Formato correto da Twitch sem o 'www'
+                        embedCode = `
                             <iframe 
-                                src="${embedUrl}" 
-                                allowfullscreen 
-                                allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                                src="https://player.twitch.tv/?channel=${stream.channel}&parent=multistreambdj.netlify.app" 
+                                height="100%" 
+                                width="100%" 
+                                allowfullscreen="true"
                                 frameborder="0"
                                 scrolling="no">
                             </iframe>
-                        </div>
-                    `;
+                        `;
+                    } else {
+                        // Formato correto do Kick
+                        embedCode = `
+                            <iframe 
+                                src="https://player.kick.com/${stream.channel}" 
+                                height="100%" 
+                                width="100%" 
+                                allowfullscreen="true"
+                                frameborder="0"
+                                scrolling="no">
+                            </iframe>
+                        `;
+                    }
+
+                    return `<div class="stream-frame">${embedCode}</div>`;
                 }).join('');
             }
 
