@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multistream.bdj</title>
+    <title>Multistream.bdj - Twitch & Kick</title>
     <style>
         * {
             margin: 0;
@@ -307,12 +307,12 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📡 Multistream.bdj</h1>
+            <h1>🎮 Multistream.bdj</h1>
             
             <div class="input-group">
                 <select id="platform">
-                    <option value="twitch">🟣Twitch</option>
-                    <option value="kick">🟢Kick</option>
+                    <option value="twitch">Twitch</option>
+                    <option value="kick">Kick</option>
                 </select>
                 <input type="text" id="channelInput" placeholder="Adicione uma stream">
                 <button onclick="addStream()">Adicionar Stream</button>
@@ -392,33 +392,26 @@
                 `;
             } else {
                 streamsContainer.innerHTML = streams.map(stream => {
-                    let content;
+                    let embedUrl;
                     if (stream.platform === 'twitch') {
-                        const hostname = window.location.hostname;
-                        const parent = hostname === '' ? 'localhost' : hostname;
-                        
-                        content = `
-                            <iframe 
-                                src="https://player.twitch.tv/?channel=${stream.channel}&parent=${parent}&muted=false" 
-                                allowfullscreen 
-                                allow="autoplay; fullscreen">
-                            </iframe>
-                            <div class="twitch-fallback">
-                                <div class="placeholder-content">
-                                    <h3>🎮 ${stream.channel}</h3>
-                                    <p class="platform-badge">TWITCH</p>
-                                    <a href="https://www.twitch.tv/${stream.channel}" target="_blank" class="open-stream-btn">
-                                        Abrir Stream
-                                    </a>
-                                    <p class="info-small">Se o player não carregar, clique para abrir em nova aba.<br>Publique este site em um domínio para o embed funcionar!</p>
-                                </div>
-                            </div>
-                        `;
+                        // Configurado para seu domínio Netlify
+                        embedUrl = `https://player.twitch.tv/?channel=${stream.channel}&parent=multistreambdj.netlify.app&muted=false`;
                     } else {
-                        content = `<iframe src="https://player.kick.com/${stream.channel}" allowfullscreen allow="autoplay; fullscreen"></iframe>`;
+                        // Kick embed
+                        embedUrl = `https://player.kick.com/${stream.channel}`;
                     }
 
-                    return `<div class="stream-frame">${content}</div>`;
+                    return `
+                        <div class="stream-frame">
+                            <iframe 
+                                src="${embedUrl}" 
+                                allowfullscreen 
+                                allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                                frameborder="0"
+                                scrolling="no">
+                            </iframe>
+                        </div>
+                    `;
                 }).join('');
             }
 
