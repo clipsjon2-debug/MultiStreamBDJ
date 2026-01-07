@@ -346,7 +346,6 @@
         let currentLayout = 1;
 
         function addStream() {
-            const platform = document.getElementById('platform').value;
             const channel = document.getElementById('channelInput').value.trim();
 
             if (!channel) {
@@ -355,7 +354,7 @@
             }
 
             const streamExists = streams.some(s => 
-                s.platform === platform && s.channel.toLowerCase() === channel.toLowerCase()
+                s.channel.toLowerCase() === channel.toLowerCase()
             );
 
             if (streamExists) {
@@ -363,7 +362,7 @@
                 return;
             }
 
-            streams.push({ platform, channel });
+            streams.push({ platform: 'twitch', channel });
             document.getElementById('channelInput').value = '';
             updateStreams();
         }
@@ -380,8 +379,8 @@
             streamsList.innerHTML = streams.map((stream, index) => `
                 <div class="stream-tag">
                     <span class="platform">
-                        <span class="platform-dot ${stream.platform}"></span>
-                        ${stream.platform.toUpperCase()}
+                        <span class="platform-dot twitch"></span>
+                        TWITCH
                     </span>
                     <span>${stream.channel}</span>
                     <button onclick="removeStream(${index})">×</button>
