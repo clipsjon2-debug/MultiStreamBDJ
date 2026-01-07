@@ -336,7 +336,7 @@
         <div class="streams-container grid-1" id="streamsContainer">
             <div class="empty-state">
                 <h2>Nenhuma stream adicionada</h2>
-                <p>Adicione canais da Twitch ou Kick para começar</p>
+                <p>Adicione canais da Twitch para começar</p>
             </div>
         </div>
     </div>
@@ -398,28 +398,11 @@
                 streamsContainer.innerHTML = streams.map(stream => {
                     let embedCode;
                     if (stream.platform === 'twitch') {
-                        // Twitch embed - usando player direto
                         embedCode = `
                             <iframe 
-                                src="https://player.twitch.tv/?channel=${stream.channel}&parent=multistreambdj.netlify.app&muted=false" 
-                                height="100%" 
-                                width="100%" 
-                                allowfullscreen>
+                                src="https://player.twitch.tv/?channel=${stream.channel}&parent=${location.hostname}&muted=false"
+                                allowfullscreen="true">
                             </iframe>
-                        `;
-                    } else {
-                        // Kick - link direto que abre em nova janela (embed não funciona mais)
-                        embedCode = `
-                            <div class="kick-placeholder">
-                                <div class="placeholder-content">
-                                    <h3>🟢 ${stream.channel}</h3>
-                                    <p class="platform-badge">KICK</p>
-                                    <a href="https://kick.com/${stream.channel}" target="_blank" class="open-stream-btn">
-                                        Abrir Live no Kick
-                                    </a>
-                                    <p class="info-small">O Kick desabilitou embeds externos. Clique para abrir a live!</p>
-                                </div>
-                            </div>
                         `;
                     }
 
