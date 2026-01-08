@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multistream.bdj</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        input, button {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .streams-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stream-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .stream-tag .platform {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .platform-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .platform-dot.twitch {
+            background: #9146ff;
+        }
+
+        .platform-dot.kick {
+            background: #53fc18;
+        }
+
+        .stream-tag button {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .stream-tag button:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .layout-section {
+            margin-bottom: 15px;
+        }
+
+        .layout-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .layout-grid {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .layout-btn {
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            min-width: 80px;
+        }
+
+        .layout-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .layout-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .chat-selector {
+            background: rgba(145, 70, 255, 0.1);
+            border: 2px solid #9146ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .chat-selector-label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .chat-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .chat-option-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid #9146ff;
+            color: #9146ff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .chat-option-btn:hover {
+            background: rgba(145, 70, 255, 0.1);
+        }
+
+        .chat-option-btn.active {
+            background: #9146ff;
+            color: white;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 15px;
+            min-height: 600px;
+        }
+
+        .streams-grid {
+            flex: 1;
+            display: grid;
+            gap: 10px;
+        }
+
+        .chat-column {
+            width: 350px;
+            background: #18181b;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .chat-column iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .stream-frame {
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stream-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 60px 20px;
+            flex: 1;
+        }
+
+        .empty-state h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .platform-note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            input, button {
+                width: 100%;
+            }
+
+            .main-content {
+                flex-direction: column;
+            }
+
+            .chat-column {
+                width: 100%;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📡 Multistream.bdj</h1>
+            
+            <div class="input-group">
+                <input type="text" id="channelInput" placeholder="Nome do canal ou link (Twitch/Kick)">
+                <button onclick="addStream()">Adicionar Stream</button>
+            </div>
+            <div class="platform-note">💜 Twitch: twitch.tv/canal | 💚 Kick: kick.com/canal</div>
+
+            <div class="streams-list" id="streamsList"></div>
+
+            <div class="layout-section">
+                <div class="layout-label">Layout das Streams:</div>
+                <div class="layout-grid">
+                    <button class="layout-btn" onclick="setLayout(1, false)">1 Stream</button>
+                    <button class="layout-btn" onclick="setLayout(2, false)">2 Streams</button>
+                    <button class="layout-btn" onclick="setLayout(3, false)">3 Streams</button>
+                    <button class="layout-btn" onclick="setLayout(4, false)">4 Streams</button>
+                </div>
+            </div>
+
+            <div class="chat-selector" id="chatSelector" style="display: none;">
+                <div class="chat-selector-label">💬 Adicionar Chat Lateral:</div>
+                <div style="margin-bottom: 10px; font-size: 14px; color: #666;">Escolha de qual canal exibir o chat</div>
+                <div class="chat-options" id="chatOptions"></div>
+            </div>
+        </div>
+
+        <div class="main-content" id="mainContent">
+            <div class="empty-state">
+                <h2>Nenhuma stream adicionada</h2>
+                <p>Adicione canais da Twitch ou Kick para começar</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let streams = [];
+        let currentGridSize = 1;
+        let showChat = false;
+        let selectedChatStream = 0;
+
+        function detectPlatform(input) {
+            if (input.includes('kick.com')) {
+                const kickMatch = input.match(/kick\.com\/([a-zA-Z0-9_-]+)/);
+                if (kickMatch) {
+                    return { platform: 'kick', channel: kickMatch[1] };
+                }
+            }
+
+            if (input.includes('twitch.tv')) {
+                const twitchMatch = input.match(/twitch\.tv\/([a-zA-Z0-9_]+)/);
+                if (twitchMatch) {
+                    if (input.includes('/videos/')) {
+                        return null;
+                    }
+                    return { platform: 'twitch', channel: twitchMatch[1] };
+                }
+            }
+
+            const cleanChannel = input.replace(/[^a-zA-Z0-9_-]/g, '');
+            if (cleanChannel) {
+                return { platform: 'twitch', channel: cleanChannel };
+            }
+
+            return null;
+        }
+
+        function addStream() {
+            let input = document.getElementById('channelInput').value.trim();
+
+            if (!input) {
+                alert('Por favor, digite o nome do canal ou cole o link');
+                return;
+            }
+
+            const detected = detectPlatform(input);
+
+            if (!detected) {
+                alert('Link ou nome de canal inválido');
+                return;
+            }
+
+            const streamExists = streams.some(s => 
+                s.channel.toLowerCase() === detected.channel.toLowerCase() &&
+                s.platform === detected.platform
+            );
+
+            if (streamExists) {
+                alert('Esta stream já foi adicionada!');
+                return;
+            }
+
+            streams.push(detected);
+            document.getElementById('channelInput').value = '';
+            updateStreamsList();
+            updateChatOptions();
+            updateStreamsGrid(); // MUDANÇA: Atualiza apenas o grid
+        }
+
+        function removeStream(index) {
+            streams.splice(index, 1);
+            if (selectedChatStream >= streams.length) {
+                selectedChatStream = Math.max(0, streams.length - 1);
+            }
+            updateStreamsList();
+            updateChatOptions();
+            updateStreamsGrid(); // MUDANÇA: Atualiza apenas o grid
+            if (showChat) {
+                updateChatOnly(); // Atualiza o chat se necessário
+            }
+        }
+
+        function updateStreamsList() {
+            const streamsList = document.getElementById('streamsList');
+            streamsList.innerHTML = streams.map((stream, index) => `
+                <div class="stream-tag">
+                    <span class="platform">
+                        <span class="platform-dot ${stream.platform}"></span>
+                        ${stream.platform.toUpperCase()}
+                    </span>
+                    <span>${stream.channel}</span>
+                    <button onclick="removeStream(${index})">×</button>
+                </div>
+            `).join('');
+        }
+
+        function setLayout(gridSize, withChat) {
+            currentGridSize = gridSize;
+            
+            document.querySelectorAll('.layout-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const chatSelector = document.getElementById('chatSelector');
+            if (streams.length > 0) {
+                chatSelector.style.display = 'block';
+            }
+            
+            updateStreamsGrid(); // MUDANÇA: Atualiza apenas o grid ao trocar layout
+        }
+
+        function selectChatStream(index) {
+            selectedChatStream = index;
+            showChat = true;
+            updateChatOptions();
+            updateChatOnly();
+        }
+
+        function disableChat() {
+            showChat = false;
+            updateChatOptions();
+            updateChatOnly();
+        }
+
+        function updateChatOptions() {
+            const chatOptions = document.getElementById('chatOptions');
+            const chatSelector = document.getElementById('chatSelector');
+            
+            if (streams.length === 0) {
+                chatSelector.style.display = 'none';
+                return;
+            }
+            
+            chatSelector.style.display = 'block';
+            
+            chatOptions.innerHTML = `
+                <button class="chat-option-btn ${!showChat ? 'active' : ''}" onclick="disableChat()">
+                    Sem Chat
+                </button>
+                ${streams.map((stream, index) => `
+                    <button class="chat-option-btn ${showChat && selectedChatStream === index ? 'active' : ''}" 
+                            onclick="selectChatStream(${index})">
+                        Chat: ${stream.channel} (${stream.platform.toUpperCase()})
+                    </button>
+                `).join('')}
+            `;
+        }
+
+        function getPlayerUrl(stream) {
+            if (stream.platform === 'kick') {
+                return `https://player.kick.com/${stream.channel}?autoplay=true`;
+            } else {
+                return `https://player.twitch.tv/?channel=${stream.channel}&parent=${location.hostname}&muted=false`;
+            }
+        }
+
+        function getChatUrl(stream) {
+            if (stream.platform === 'kick') {
+                return `https://kick.com/${stream.channel}/chatroom`;
+            } else {
+                return `https://www.twitch.tv/embed/${stream.channel}/chat?parent=${location.hostname}&darkpopout`;
+            }
+        }
+
+        function updateChatOnly() {
+            const mainContent = document.getElementById('mainContent');
+            let chatColumn = mainContent.querySelector('.chat-column');
+            
+            if (showChat && streams[selectedChatStream]) {
+                const chatStream = streams[selectedChatStream];
+                const chatUrl = getChatUrl(chatStream);
+                
+                if (chatColumn) {
+                    chatColumn.innerHTML = `<iframe src="${chatUrl}"></iframe>`;
+                } else {
+                    chatColumn = document.createElement('div');
+                    chatColumn.className = 'chat-column';
+                    chatColumn.innerHTML = `<iframe src="${chatUrl}"></iframe>`;
+                    mainContent.appendChild(chatColumn);
+                }
+            } else {
+                if (chatColumn) {
+                    chatColumn.remove();
+                }
+            }
+        }
+
+        // NOVA FUNÇÃO: Atualiza apenas a grid de streams sem recarregar tudo
+        function updateStreamsGrid() {
+            const mainContent = document.getElementById('mainContent');
+            let streamsGrid = mainContent.querySelector('.streams-grid');
+
+            if (streams.length === 0) {
+                mainContent.innerHTML = `
+                    <div class="empty-state">
+                        <h2>Nenhuma stream adicionada</h2>
+                        <p>Adicione canais da Twitch ou Kick para começar</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const displayCount = Math.min(currentGridSize, streams.length);
+            const cols = displayCount === 1 ? 1 : displayCount === 2 ? 2 : displayCount === 3 ? 3 : 2;
+            const rows = Math.ceil(displayCount / cols);
+
+            // Se a grid não existe, cria do zero
+            if (!streamsGrid) {
+                streamsGrid = document.createElement('div');
+                streamsGrid.className = 'streams-grid';
+                mainContent.innerHTML = ''; // Limpa o empty state
+                mainContent.appendChild(streamsGrid);
+            }
+
+            // Atualiza o estilo do grid
+            streamsGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            streamsGrid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+            // Pega os iframes existentes
+            const existingFrames = Array.from(streamsGrid.querySelectorAll('.stream-frame'));
+            
+            // Remove frames extras (se reduziu o número de streams)
+            while (existingFrames.length > displayCount) {
+                existingFrames.pop().remove();
+            }
+
+            // Atualiza ou adiciona frames conforme necessário
+            for (let i = 0; i < displayCount; i++) {
+                const stream = streams[i];
+                const playerUrl = getPlayerUrl(stream);
+                
+                if (existingFrames[i]) {
+                    // Frame já existe, verifica se precisa atualizar
+                    const existingIframe = existingFrames[i].querySelector('iframe');
+                    if (existingIframe.src !== playerUrl) {
+                        existingIframe.src = playerUrl;
+                    }
+                } else {
+                    // Cria novo frame
+                    const newFrame = document.createElement('div');
+                    newFrame.className = 'stream-frame';
+                    newFrame.innerHTML = `<iframe src="${playerUrl}" allowfullscreen="true" allow="autoplay; fullscreen"></iframe>`;
+                    streamsGrid.appendChild(newFrame);
+                }
+            }
+
+            // Reaplica o chat se estiver ativo
+            if (showChat && streams[selectedChatStream]) {
+                updateChatOnly();
+            }
+        }
+
+        // Função original mantida para compatibilidade (mas não usada mais)
+        function renderStreams() {
+            updateStreamsGrid();
+        }
+
+        document.getElementById('channelInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addStream();
+            }
+        });
+    </script>
+</body>
+</html>
