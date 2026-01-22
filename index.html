@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multistream</title>
+    <title>Multistream.bdj</title>
     <style>
         * {
             margin: 0;
@@ -200,6 +200,39 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .preset-buttons {
+            display: flex;
+            gap: 6px;
+            margin-right: 10px;
+        }
+
+        .preset-btn {
+            background: #53fc18;
+            color: #000;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 18px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .preset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(83, 252, 24, 0.4);
+        }
+
+        .preset-btn.bdj {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+        }
+
+        .preset-btn.bdj:hover {
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
         }
 
         .control-btn {
@@ -379,10 +412,10 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📡 Multistream</h1>
+            <h1>📡 Multistream.bdj</h1>
             
             <div class="input-group">
-                <input type="text" id="channelInput" placeholder="Adicione o link do canal (Twitch/Kick)">
+                <input type="text" id="channelInput" placeholder="Nome do canal ou link (Twitch/Kick)">
                 <button onclick="addStream()">Adicionar Stream</button>
             </div>
             <div class="platform-note">💜 Twitch: twitch.tv/canal | 💚 Kick: kick.com/canal</div>
@@ -390,6 +423,11 @@
             <div class="streams-list" id="streamsList"></div>
 
             <div class="control-buttons">
+                <div class="preset-buttons">
+                    <button class="preset-btn bdj" onclick="loadPreset('bdj')">BDJ</button>
+                    <button class="preset-btn" onclick="loadPreset('triploud')">Trip Loud</button>
+                </div>
+
                 <div style="position: relative;">
                     <button class="control-btn" onclick="toggleLayoutDropdown()">
                         📐 Layout
@@ -431,18 +469,37 @@
     </div>
 
     <script>
-        let streams = [
-            { platform: 'twitch', channel: 'gabepeixe' },
-            { platform: 'twitch', channel: 'loud_coringa' },
-            { platform: 'twitch', channel: 'loud_brabox' },
-            { platform: 'kick', channel: 'gabepeixe' },
-            { platform: 'kick', channel: 'coringa' }
-        ];
+        let streams = [];
         let currentGridSize = 6;
         let showChat = false;
         let selectedChatStream = 0;
         let draggedIndex = null;
         let isDarkMode = true;
+
+        function loadPreset(presetName) {
+            streams = [];
+            
+            if (presetName === 'bdj') {
+                streams = [
+                    { platform: 'twitch', channel: 'jonvlogs' },
+                    { platform: 'twitch', channel: 'marcove' },
+                    { platform: 'twitch', channel: 'fontinnelerj' },
+                    { platform: 'twitch', channel: 'jhowrj1' }
+                ];
+            } else if (presetName === 'triploud') {
+                streams = [
+                    { platform: 'twitch', channel: 'gabepeixe' },
+                    { platform: 'twitch', channel: 'loud_coringa' },
+                    { platform: 'twitch', channel: 'loud_brabox' }
+                ];
+            }
+            
+            selectedChatStream = 0;
+            showChat = false;
+            updateStreamsList();
+            updateChatDropdown();
+            updateStreamsGrid();
+        }
 
         function toggleTheme() {
             isDarkMode = !isDarkMode;
@@ -876,4 +933,3 @@
     </script>
 </body>
 </html>
-
