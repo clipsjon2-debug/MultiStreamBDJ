@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multistream.bdj</title>
+    <title>Multistream</title>
     <style>
         * {
             margin: 0;
@@ -30,10 +30,10 @@
 
         .header {
             background: #6C6C6C;
-            padding: 20px;
-            border-radius: 15px;
+            padding: 12px 18px;
+            border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             transition: background 0.3s ease;
         }
 
@@ -43,8 +43,8 @@
 
         h1 {
             color: #f0f0f0;
-            margin-bottom: 15px;
-            font-size: 1.8em;
+            margin-bottom: 10px;
+            font-size: 1.5em;
             transition: color 0.3s ease;
         }
 
@@ -54,16 +54,16 @@
 
         .input-group {
             display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
+            gap: 8px;
+            margin-bottom: 8px;
             flex-wrap: wrap;
         }
 
         input, button {
-            padding: 10px 18px;
+            padding: 8px 14px;
             border: 2px solid #666;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         input {
@@ -110,19 +110,19 @@
         .streams-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 8px;
         }
 
         .stream-tag {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 6px 12px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 14px;
+            gap: 6px;
+            font-size: 13px;
             cursor: grab;
             user-select: none;
             transition: transform 0.2s, opacity 0.2s;
@@ -143,18 +143,18 @@
 
         .stream-tag .platform {
             background: rgba(255, 255, 255, 0.3);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 11px;
             font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
 
         .platform-dot {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             display: inline-block;
         }
@@ -171,7 +171,7 @@
             background: rgba(255, 255, 255, 0.3);
             border: none;
             color: white;
-            padding: 2px 8px;
+            padding: 2px 6px;
             border-radius: 50%;
             cursor: pointer;
             font-weight: bold;
@@ -184,109 +184,105 @@
             box-shadow: none;
         }
 
-        .layout-section {
-            margin-bottom: 12px;
-        }
-
-        .layout-label {
-            font-weight: bold;
+        .platform-note {
+            font-size: 12px;
+            color: #ccc;
+            margin-top: 6px;
             margin-bottom: 8px;
-            color: #f0f0f0;
-            font-size: 14px;
             transition: color 0.3s ease;
         }
 
-        body.light-mode .layout-label {
-            color: #333;
+        body.light-mode .platform-note {
+            color: #666;
         }
 
-        .layout-grid {
+        .control-buttons {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
 
-        .layout-btn {
-            padding: 10px 16px;
-            background: #6C6C6C;
-            border: 2px solid #667eea;
-            color: #f0f0f0;
-            border-radius: 8px;
+        .control-btn {
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s;
-            min-width: 70px;
-            font-size: 14px;
+            font-size: 13px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        body.light-mode .layout-btn {
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .control-dropdown {
+            position: absolute;
+            top: 45px;
+            left: 0;
             background: white;
-            color: #667eea;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            display: none;
+            overflow: hidden;
+            z-index: 1000;
+            min-width: 180px;
+            max-height: 350px;
+            overflow-y: auto;
         }
 
-        .layout-btn:hover {
-            background: #707070;
+        .control-dropdown.show {
+            display: block;
         }
 
-        body.light-mode .layout-btn:hover {
+        .dropdown-option {
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: #333;
+            font-weight: 500;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        .dropdown-option:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-option:hover {
             background: #f0f0f0;
         }
 
-        .layout-btn.active {
+        .dropdown-option.active {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
 
-        .chat-selector {
-            background: rgba(145, 70, 255, 0.1);
-            border: 2px solid #9146ff;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 12px;
-        }
-
-        .chat-selector-label {
-            font-weight: bold;
-            color: #f0f0f0;
-            margin-bottom: 8px;
-            font-size: 14px;
-            transition: color 0.3s ease;
-        }
-
-        body.light-mode .chat-selector-label {
-            color: #333;
-        }
-
-        .chat-options {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .chat-option-btn {
-            padding: 8px 14px;
-            background: #6C6C6C;
-            border: 2px solid #9146ff;
-            color: #f0f0f0;
-            border-radius: 8px;
+        .theme-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s;
             font-size: 13px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        body.light-mode .chat-option-btn {
-            background: white;
-            color: #9146ff;
-        }
-
-        .chat-option-btn:hover {
-            background: rgba(145, 70, 255, 0.2);
-        }
-
-        .chat-option-btn.active {
-            background: #9146ff;
-            color: white;
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
         .main-content {
@@ -356,43 +352,9 @@
             opacity: 0.9;
         }
 
-        .platform-note {
-            font-size: 13px;
-            color: #ccc;
-            margin-top: 8px;
-            transition: color 0.3s ease;
-        }
-
-        body.light-mode .platform-note {
-            color: #666;
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
         @media (max-width: 768px) {
             h1 {
-                font-size: 1.5em;
+                font-size: 1.3em;
             }
 
             .input-group {
@@ -415,13 +377,9 @@
     </style>
 </head>
 <body>
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <span id="themeText">Modo Claro</span>
-    </button>
-    
     <div class="container">
         <div class="header">
-            <h1>📡 Multistream.bdj</h1>
+            <h1>📡 Multistream</h1>
             
             <div class="input-group">
                 <input type="text" id="channelInput" placeholder="Nome do canal ou link (Twitch/Kick)">
@@ -431,22 +389,36 @@
 
             <div class="streams-list" id="streamsList"></div>
 
-            <div class="layout-section">
-                <div class="layout-label">Layout das Streams:</div>
-                <div class="layout-grid">
-                    <button class="layout-btn" onclick="setLayout(1, false)">1 Stream</button>
-                    <button class="layout-btn" onclick="setLayout(2, false)">2 Streams</button>
-                    <button class="layout-btn" onclick="setLayout(3, false)">3 Streams</button>
-                    <button class="layout-btn" onclick="setLayout(4, false)">4 Streams</button>
-                    <button class="layout-btn" onclick="setLayout(5, false)">5 Streams</button>
-                    <button class="layout-btn active" onclick="setLayout(6, false)">6 Streams</button>
+            <div class="control-buttons">
+                <div style="position: relative;">
+                    <button class="control-btn" onclick="toggleLayoutDropdown()">
+                        📐 Layout
+                    </button>
+                    <div class="control-dropdown" id="layoutDropdown">
+                        <div class="dropdown-option" onclick="setLayoutFromDropdown(1)">1 Stream</div>
+                        <div class="dropdown-option" onclick="setLayoutFromDropdown(2)">2 Streams</div>
+                        <div class="dropdown-option" onclick="setLayoutFromDropdown(3)">3 Streams</div>
+                        <div class="dropdown-option" onclick="setLayoutFromDropdown(4)">4 Streams</div>
+                        <div class="dropdown-option" onclick="setLayoutFromDropdown(5)">5 Streams</div>
+                        <div class="dropdown-option active" onclick="setLayoutFromDropdown(6)">6 Streams</div>
+                        <div class="dropdown-option" onclick="setLayoutFromDropdown(7)">7 Streams</div>
+                        <div class="dropdown-option" onclick="setLayoutFromDropdown(8)">8 Streams</div>
+                        <div class="dropdown-option" onclick="setLayoutFromDropdown(9)">9 Streams</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="chat-selector" id="chatSelector" style="display: none;">
-                <div class="chat-selector-label">💬 Adicionar Chat Lateral:</div>
-                <div style="margin-bottom: 8px; font-size: 13px; color: #ccc;">Escolha de qual canal exibir o chat</div>
-                <div class="chat-options" id="chatOptions"></div>
+                <div style="position: relative;" id="chatButtonContainer" style="display: none;">
+                    <button class="control-btn" onclick="toggleChatDropdown()">
+                        💬 Chat
+                    </button>
+                    <div class="control-dropdown" id="chatDropdown">
+                        <div class="dropdown-option active" onclick="disableChatFromDropdown()">Sem Chat</div>
+                    </div>
+                </div>
+
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <span id="themeText">Modo Claro</span>
+                </button>
             </div>
         </div>
 
@@ -485,6 +457,91 @@
                 themeText.textContent = 'Modo Escuro';
             }
         }
+
+        function toggleLayoutDropdown() {
+            const dropdown = document.getElementById('layoutDropdown');
+            const chatDropdown = document.getElementById('chatDropdown');
+            chatDropdown.classList.remove('show');
+            dropdown.classList.toggle('show');
+        }
+
+        function toggleChatDropdown() {
+            const dropdown = document.getElementById('chatDropdown');
+            const layoutDropdown = document.getElementById('layoutDropdown');
+            layoutDropdown.classList.remove('show');
+            dropdown.classList.toggle('show');
+        }
+
+        function setLayoutFromDropdown(gridSize) {
+            currentGridSize = gridSize;
+            
+            const options = document.querySelectorAll('#layoutDropdown .dropdown-option');
+            options.forEach(opt => opt.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('layoutDropdown').classList.remove('show');
+            
+            updateChatDropdown();
+            updateStreamsGrid();
+        }
+
+        function disableChatFromDropdown() {
+            showChat = false;
+            
+            const options = document.querySelectorAll('#chatDropdown .dropdown-option');
+            options.forEach(opt => opt.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('chatDropdown').classList.remove('show');
+            updateChatOnly();
+        }
+
+        function selectChatStreamFromDropdown(index) {
+            selectedChatStream = index;
+            showChat = true;
+            
+            const options = document.querySelectorAll('#chatDropdown .dropdown-option');
+            options.forEach(opt => opt.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('chatDropdown').classList.remove('show');
+            updateChatOnly();
+        }
+
+        function updateChatDropdown() {
+            const chatDropdown = document.getElementById('chatDropdown');
+            const chatButtonContainer = document.getElementById('chatButtonContainer');
+            
+            if (streams.length === 0) {
+                chatButtonContainer.style.display = 'none';
+                return;
+            }
+            
+            chatButtonContainer.style.display = 'block';
+            
+            chatDropdown.innerHTML = `
+                <div class="dropdown-option ${!showChat ? 'active' : ''}" onclick="disableChatFromDropdown()">
+                    Sem Chat
+                </div>
+                ${streams.map((stream, index) => `
+                    <div class="dropdown-option ${showChat && selectedChatStream === index ? 'active' : ''}" 
+                            onclick="selectChatStreamFromDropdown(${index})">
+                        ${stream.channel} (${stream.platform.toUpperCase()})
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        document.addEventListener('click', function(event) {
+            const layoutDropdown = document.getElementById('layoutDropdown');
+            const chatDropdown = document.getElementById('chatDropdown');
+            const layoutBtn = event.target.closest('.control-btn');
+            
+            if (!layoutBtn) {
+                layoutDropdown.classList.remove('show');
+                chatDropdown.classList.remove('show');
+            }
+        });
 
         function detectPlatform(input) {
             if (input.includes('kick.com')) {
@@ -540,7 +597,7 @@
             streams.push(detected);
             document.getElementById('channelInput').value = '';
             updateStreamsList();
-            updateChatOptions();
+            updateChatDropdown();
             updateStreamsGrid();
         }
 
@@ -550,7 +607,7 @@
                 selectedChatStream = Math.max(0, streams.length - 1);
             }
             updateStreamsList();
-            updateChatOptions();
+            updateChatDropdown();
             updateStreamsGrid();
             if (showChat) {
                 updateChatOnly();
@@ -632,7 +689,7 @@
                     }
                     
                     updateStreamsList();
-                    updateChatOptions();
+                    updateChatDropdown();
                     reorderStreamsVisually(draggedIndex, dropIndex);
                 }
             }
@@ -646,57 +703,6 @@
                 tag.classList.remove('drag-over');
             });
             draggedIndex = null;
-        }
-
-        function setLayout(gridSize, withChat) {
-            currentGridSize = gridSize;
-            
-            document.querySelectorAll('.layout-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            const chatSelector = document.getElementById('chatSelector');
-            if (streams.length > 0) {
-                chatSelector.style.display = 'block';
-            }
-            
-            updateStreamsGrid();
-        }
-
-        function selectChatStream(index) {
-            selectedChatStream = index;
-            showChat = true;
-            updateChatOptions();
-            updateChatOnly();
-        }
-
-        function disableChat() {
-            showChat = false;
-            updateChatOptions();
-            updateChatOnly();
-        }
-
-        function updateChatOptions() {
-            const chatOptions = document.getElementById('chatOptions');
-            const chatSelector = document.getElementById('chatSelector');
-            
-            if (streams.length === 0) {
-                chatSelector.style.display = 'none';
-                return;
-            }
-            
-            chatSelector.style.display = 'block';
-            
-            chatOptions.innerHTML = `
-                <button class="chat-option-btn ${!showChat ? 'active' : ''}" onclick="disableChat()">
-                    Sem Chat
-                </button>
-                ${streams.map((stream, index) => `
-                    <button class="chat-option-btn ${showChat && selectedChatStream === index ? 'active' : ''}" 
-                            onclick="selectChatStream(${index})">
-                        Chat: ${stream.channel} (${stream.platform.toUpperCase()})
-                    </button>
-                `).join('')}
-            `;
         }
 
         function getPlayerUrl(stream) {
@@ -804,9 +810,18 @@
             } else if (displayCount === 6) {
                 cols = 3;
                 rows = 2;
+            } else if (displayCount === 7) {
+                cols = 4;
+                rows = 2;
+            } else if (displayCount === 8) {
+                cols = 4;
+                rows = 2;
+            } else if (displayCount === 9) {
+                cols = 3;
+                rows = 3;
             } else {
-                cols = 2;
-                rows = Math.ceil(displayCount / 2);
+                cols = 3;
+                rows = Math.ceil(displayCount / 3);
             }
 
             if (!streamsGrid) {
@@ -855,11 +870,9 @@
 
         window.addEventListener('DOMContentLoaded', function() {
             updateStreamsList();
-            updateChatOptions();
+            updateChatDropdown();
             updateStreamsGrid();
         });
     </script>
 </body>
-
 </html>
-
