@@ -13,7 +13,8 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #2F2F2F;
+            background: #0e0e10;
+            color: #efeff1;
             min-height: 100vh;
             padding: 20px;
             transition: background 0.3s ease;
@@ -28,11 +29,34 @@
             margin: 0 auto;
         }
 
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo h1 {
+            font-size: 2.3em;
+            background: linear-gradient(135deg, #9147ff, #772ce8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #adadb8;
+            font-size: 0.95em;
+            transition: color 0.3s ease;
+        }
+
+        body.light-mode .logo p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
         .header {
-            background: #6C6C6C;
-            padding: 12px 18px;
+            background: #18181b;
+            padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             margin-bottom: 15px;
             transition: background 0.3s ease;
         }
@@ -41,47 +65,33 @@
             background: rgba(255, 255, 255, 0.95);
         }
 
-        h1 {
-            color: #f0f0f0;
-            margin-bottom: 10px;
-            font-size: 1.5em;
-            transition: color 0.3s ease;
-        }
-
-        body.light-mode h1 {
-            color: #333;
-        }
-
         .input-group {
             display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
+            gap: 10px;
+            margin-bottom: 10px;
             flex-wrap: wrap;
-        }
-
-        input, button {
-            padding: 8px 14px;
-            border: 2px solid #666;
-            border-radius: 8px;
-            font-size: 14px;
         }
 
         input {
             flex: 1;
             min-width: 200px;
-            background: #6C6C6C;
-            color: #f0f0f0;
-            transition: background 0.3s ease, color 0.3s ease;
+            padding: 12px;
+            background: #0e0e10;
+            border: 2px solid #26262c;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            transition: background 0.3s ease, border-color 0.3s ease;
         }
 
         body.light-mode input {
             background: white;
             color: #333;
+            border-color: #ddd;
         }
 
         input::placeholder {
-            color: #bbb;
-            transition: color 0.3s ease;
+            color: #adadb8;
         }
 
         body.light-mode input::placeholder {
@@ -90,38 +100,41 @@
 
         input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #9147ff;
         }
 
         button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, #9147ff, #772ce8);
             border: none;
-            cursor: pointer;
+            border-radius: 8px;
+            color: white;
             font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(145, 71, 255, 0.4);
         }
 
         .streams-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 8px;
+            gap: 8px;
+            margin-bottom: 10px;
         }
 
         .stream-tag {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #9147ff;
             color: white;
             padding: 6px 12px;
-            border-radius: 18px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             font-size: 13px;
             cursor: grab;
             user-select: none;
@@ -175,7 +188,7 @@
             border-radius: 50%;
             cursor: pointer;
             font-weight: bold;
-            pointer-events: auto;
+            font-size: 16px;
         }
 
         .stream-tag button:hover {
@@ -186,7 +199,7 @@
 
         .platform-note {
             font-size: 12px;
-            color: #ccc;
+            color: #adadb8;
             margin-top: 6px;
             margin-bottom: 8px;
             transition: color 0.3s ease;
@@ -198,14 +211,14 @@
 
         .control-buttons {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
             align-items: center;
         }
 
         .preset-buttons {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             margin-right: 10px;
         }
 
@@ -213,11 +226,11 @@
             background: #53fc18;
             color: #000;
             border: none;
-            padding: 8px 14px;
-            border-radius: 18px;
+            padding: 10px 16px;
+            border-radius: 20px;
             cursor: pointer;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 13px;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
@@ -237,10 +250,10 @@
 
         .control-btn {
             position: relative;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #9147ff, #772ce8);
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 10px 16px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: 600;
@@ -253,7 +266,7 @@
 
         .control-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(145, 71, 255, 0.4);
         }
 
         .control-dropdown {
@@ -294,15 +307,15 @@
         }
 
         .dropdown-option.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #9147ff, #772ce8);
             color: white;
         }
 
         .theme-toggle {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #9147ff, #772ce8);
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 10px 16px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: 600;
@@ -315,16 +328,16 @@
 
         .theme-toggle:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(145, 71, 255, 0.4);
         }
 
         .main-content {
+            background: #18181b;
+            border-radius: 12px;
+            padding: 10px;
+            min-height: 600px;
             display: flex;
             gap: 10px;
-            background: rgba(80, 80, 80, 0.3);
-            padding: 10px;
-            border-radius: 15px;
-            min-height: 600px;
             transition: background 0.3s ease;
         }
 
@@ -340,7 +353,7 @@
 
         .chat-column {
             width: 420px;
-            background: #18181b;
+            background: #0e0e10;
             border-radius: 10px;
             overflow: hidden;
         }
@@ -370,7 +383,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #adadb8;
             padding: 60px 20px;
             flex: 1;
         }
@@ -386,8 +399,8 @@
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 1.3em;
+            .logo h1 {
+                font-size: 1.8em;
             }
 
             .input-group {
@@ -411,9 +424,12 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <div class="logo">
             <h1>📡 Multistream.bdj</h1>
-            
+            <p>Multistream Twitch & Kick</p>
+        </div>
+
+        <div class="header">
             <div class="input-group">
                 <input type="text" id="channelInput" placeholder="Nome do canal ou link (Twitch/Kick)">
                 <button onclick="addStream()">Adicionar Stream</button>
@@ -445,7 +461,7 @@
                     </div>
                 </div>
 
-                <div style="position: relative;" id="chatButtonContainer" style="display: none;">
+                <div style="position: relative; display: none;" id="chatButtonContainer">
                     <button class="control-btn" onclick="toggleChatDropdown()">
                         💬 Chat
                     </button>
@@ -455,7 +471,7 @@
                 </div>
 
                 <button class="theme-toggle" onclick="toggleTheme()">
-                    <span id="themeText">Modo Claro</span>
+                    <span id="themeText">☀️ Modo Claro</span>
                 </button>
             </div>
         </div>
@@ -508,10 +524,10 @@
             
             if (isDarkMode) {
                 body.classList.remove('light-mode');
-                themeText.textContent = 'Modo Claro';
+                themeText.textContent = '☀️ Modo Claro';
             } else {
                 body.classList.add('light-mode');
-                themeText.textContent = 'Modo Escuro';
+                themeText.textContent = '🌙 Modo Escuro';
             }
         }
 
@@ -815,7 +831,6 @@
             }
             
             const draggedFrame = frames[fromIndex];
-            
             draggedFrame.remove();
             
             if (toIndex === 0) {
