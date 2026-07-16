@@ -499,6 +499,26 @@
         let draggedIndex = null;
         let isDarkMode = true;
 
+        // ====================================
+        // FIX: parâmetro "parent" da Twitch
+        // ====================================
+        // A Twitch exige que o parâmetro "parent" bata exatamente com o
+        // hostname onde a página está sendo servida. Se você abrir o
+        // arquivo direto (duplo clique / file://), location.hostname fica
+        // vazio e o player da Twitch trava carregando pra sempre.
+        //
+        // Adicione aqui todos os domínios/hosts onde você usa este site.
+        // "localhost" e "127.0.0.1" já cobrem testes locais via servidor.
+        const TWITCH_ALLOWED_PARENTS = ['localhost', '127.0.0.1'];
+
+        function getTwitchParent() {
+            const host = location.hostname;
+            if (host && (TWITCH_ALLOWED_PARENTS.includes(host) || host !== '')) {
+                return host || 'localhost';
+            }
+            return 'localhost';
+        }
+
         function detectPlatform(input) {
             // YouTube
             if (input.includes('youtube.com') || input.includes('youtu.be')) {
@@ -688,17 +708,17 @@
             } else if (stream.platform === 'kick') {
                 return `https://player.kick.com/${stream.channel}?autoplay=true`;
             } else {
-                return `https://player.twitch.tv/?channel=${stream.channel}&parent=${location.hostname}&muted=false`;
+                return `https://player.twitch.tv/?channel=${stream.channel}&parent=${getTwitchParent()}&muted=false`;
             }
         }
 
         function getChatUrl(stream) {
             if (stream.platform === 'youtube') {
-                return `https://www.youtube.com/live_chat?v=${stream.channel}&embed_domain=${location.hostname}`;
+                return `https://www.youtube.com/live_chat?v=${stream.channel}&embed_domain=${getTwitchParent()}`;
             } else if (stream.platform === 'kick') {
                 return `https://kick.com/${stream.channel}/chatroom`;
             } else {
-                return `https://www.twitch.tv/embed/${stream.channel}/chat?parent=${location.hostname}&darkpopout`;
+                return `https://www.twitch.tv/embed/${stream.channel}/chat?parent=${getTwitchParent()}&darkpopout`;
             }
         }
 
@@ -1027,6 +1047,3 @@
     </script>
 </body>
 </html>
-
-
-
